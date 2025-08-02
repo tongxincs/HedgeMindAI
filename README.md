@@ -46,10 +46,17 @@ The output includes:
 
 ```mermaid
 graph TD;
-    A[Fundamental Agent] --> B[News Agent]
-    B --> C[Reddit Sentiment Agent]
-    C --> D[Strategist Agent]
-    D --> E[Final Investment Report]
+    A[🧠 Graph Controller]
+
+    A --> B1[📊 Fundamental Agent]
+    A --> B2[📰 News Agent]
+    A --> B3[🧠 Reddit Sentiment Agent]
+
+    B1 --> C[🧩 Strategist Agent]
+    B2 --> C
+    B3 --> C
+
+    C --> D[📈 Final Investment Report]
 ```
 
 ### ⚙️ Installation
