@@ -46,9 +46,9 @@ The output includes:
 
 ```mermaid
 graph TD;
-    A[Start: Fundamental Agent] --> B[News Agent]
+    A[Fundamental Agent] --> B[News Agent]
     B --> C[Reddit Sentiment Agent]
-    C --> D[Strategist Agent (LLM synthesis)]
+    C --> D[Strategist Agent]
     D --> E[Final Investment Report]
 ```
 
