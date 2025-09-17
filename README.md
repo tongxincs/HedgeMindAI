@@ -1,37 +1,56 @@
-# 📈 StockInsight AI
+# 📈 HedgeMind AI
 
-🧠 *An intelligent multi-agent system that transforms any U.S. stock ticker into a professional-grade investment report within minutes.*
+🧠 *A multi-agent, multi-modal system that transforms any U.S. stock ticker into a professional-grade investment report — combining fundamentals, earnings, insider trades, charts, news, sentiment, and strategy.
 
 ---
 
 ## 🚀 Overview
 
-`StockInsight AI` is a LangGraph-powered multi-agent system that performs automated financial analysis on any U.S. stock. It pulls real-time data from public APIs, runs each data stream through dedicated agents (fundamental, news, sentiment), and uses a strategist agent to synthesize the final investment thesis using advanced natural language understanding.
+`HedgeMind AI` is a LangGraph-powered multi-agent framework for automated equity research.
+It integrates structured financial data, unstructured news & sentiment, and visual analysis (charts/images) into a single end-to-end research pipeline.
+
+Agents operate in layers:
+
+Layer 1: Fetch core signals (fundamentals, quarterly earnings, insider transactions)
+
+Layer 2: Aggregate reports and generate financial charts
+
+Layer 3: Enrich with news, sentiment, and alternative data (satellite, etc.)
+
+Layer 4: Strategist agent synthesizes everything into a final investment thesis
 
 ---
 
 ## 🔍 What It Does
 
-- 📊 **Fundamental Analysis** (P/E, revenue growth, margins, debt, valuation)
-- 📰 **News Sentiment** (macroeconomic reactions, insider signals, catalysts)
-- 🧠 **Reddit Sentiment** (WSB hype, trader positioning, YOLO behavior)
-- 📈 **Strategy Synthesis** (bullish/bearish outlook, risk flags, time horizon insights)
+-📊 **Fundamental Analysis** (P/E, revenue growth, margins, debt, valuation trends)
+-🧾 **Quarterly Earnings** (revenue, net income, EPS, QoQ/YoY growth)
+-🟦 **Insider Transactions** (timing of executive buys/sells, net flows, value)
+-🖼️ **Chart Agent** (price with insider overlays, revenue vs. net income trends, SPY relative performance)
+-📰 **News Analysis** (sector context, catalysts, risks)
+-🧠 **Sentiment Analysis** (Reddit/WSB hype, trader conviction, retail momentum)
+-🛰️ **Satellite / Alt-Data Hooks** (placeholder for supply chain, foot traffic, etc.)
+-📈 **Strategist Agent** (final outlook: bullish/bearish, risks, time horizon, catalysts)
+
 
 ---
 
 ## 🎯 Example:
 ```
 ==========================================================================================
-|                            📈 Welcome to StockInsight AI                               |
+|                             📈 Welcome to HedgeMind AI                                 |
 |                                                                                        |
-|     An intelligent multi-agent system that analyzes any U.S. stock.                    |
-|     It combines fundamental, news, Reddit sentiment, and strategy                      |
-|     insights to generate a professional-grade research report.                         |
+|   A multi-agent, multi-modal research system for U.S. equities.                        |
+|   It integrates fundamentals, earnings, insider activity, charts, news, sentiment,     |
+|   and strategy to deliver professional-grade investment insights.                      |
 ==========================================================================================
 ```
 The output includes:
 
 - ✅ 📊 **Fundamental Report**: Highlights valuation concerns (P/E 136x, 0% revenue growth)
+- ✅ 🧾 **Quarterly Earnings Report**: Recent revenue, net income, EPS with QoQ/YoY changes
+- ✅ 🟦 **Insider Report**: Tracks major insider buys/sells and their timing vs. price peaks
+- ✅ 🖼️ **Chart Analysis**: LLM insights from price + insider overlays, revenue vs. profit, SPY relative performance
 - ✅ 📰 **News Summary**: Cautiously mixed due to macro weakness and crypto volatility
 - ✅ 🧠 **Reddit Sentiment**: Extremely bullish with strong retail conviction and FOMO
 - ✅ 🧩 **Strategy Report**: Final outlook flags high risk of short-term correction due to overvaluation + speculative rally
@@ -40,7 +59,7 @@ The output includes:
 
 ## 🧠 Architecture
 
-`StockInsight AI` uses a LangGraph DAG to orchestrate the agents:
+`HedgeMind AI` uses a multi-layer LangGraph DAG to orchestrate agents:
 
 ### 🧬 Execution Flow
 
@@ -48,21 +67,33 @@ The output includes:
 graph TD;
     A[🧠 Graph Controller]
 
+    %% Layer 1: Parallel signals
     A --> B1[📊 Fundamental Agent]
-    A --> B2[📰 News Agent]
-    A --> B3[🧠 Reddit Sentiment Agent]
+    A --> B2[🧾 Quarterly Earnings Agent]
+    A --> B3[🟦 Insider Transaction Agent]
 
-    B1 --> C[🧩 Strategist Agent]
+    %% Layer 2: Aggregation
+    B1 --> C[📑 Gather Reports]
     B2 --> C
     B3 --> C
 
-    C --> D[📈 Final Investment Report]
+    %% Layer 3: Visualization
+    C --> D[🖼️ Chart Agent]
+
+    %% Layer 4: Contextual
+    D --> E1[📰 News Agent]
+    E1 --> E2[🧠 Sentiment Agent]
+    E2 --> E3[🛰️ Satellite Agent]
+
+    %% Layer 5: Final synthesis
+    E3 --> F[🧩 Strategist Agent]
+    F --> G[📈 Final Investment Report]
 ```
 
 ### ⚙️ Installation
 ```
-git clone https://github.com/tongxincs/stockinsight-ai.git
-cd stockinsight-ai
+git clone https://github.com/tongxincs/hedgemind-ai.git
+cd hedgemind-ai
 pip install -r requirements.txt
 ```
 
@@ -92,10 +123,14 @@ python main.py
 ```
 You’ll be prompted to enter a stock ticker. The multi-agent analysis will begin automatically, showing real-time CLI output from each agent:
 ```
-📊 [Fundamental Analysis Agent] Fetching fundamentals...
-📰 [News Analysis Agent] Analyzing macro & sector headlines...
-🧠 [Reddit Sentiment Agent] Mining posts from r/wallstreetbets...
-📈 [Strategy Agent] Synthesizing final investment outlook...
+📊 [Fundamental Agent] Fetching key financials...
+🧾 [Quarterly Earnings Agent] Analyzing last 8 quarters...
+🟦 [Insider Agent] Processing insider trades...
+🖼️ [Chart Agent] Generating charts and running LLM vision analysis...
+📰 [News Agent] Pulling sector headlines...
+🧠 [Sentiment Agent] Mining Reddit discussion...
+🛰️ [Satellite Agent] Integrating alt-data...
+🧩 [Strategist Agent] Synthesizing final investment outlook...
 ```
 At the end, a clean, timestamped research report will be printed.
 
@@ -103,9 +138,9 @@ At the end, a clean, timestamped research report will be printed.
 Each agent is a self-contained module, with its own API logic, LLM prompt, and output formatting. The system can be extended with plug-and-play ease — e.g., by adding:
 
 *   🟩 OptionsFlowAgent
-*   🟨 InsiderTradingAgent
+*   🟨 MacroIndicatorAgent
 *   🟦 ETFExposureAgent
-*   🔵 MacroIndicatorAgent
+*   🟣 Video/Speech Agent (earnings call audio/video transcripts)
 
 ### 📝 License
 MIT License. See [LICENSE](./LICENSE) for full details.
