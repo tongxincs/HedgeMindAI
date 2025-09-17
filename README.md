@@ -92,7 +92,7 @@ graph TD;
 
 ### ⚙️ Installation
 ```
-git clone https://github.com/tongxincs/hedgemind-ai.git
+git clone https://github.com/tongxincs/HedgeMindAI.git
 cd hedgemind-ai
 pip install -r requirements.txt
 ```
