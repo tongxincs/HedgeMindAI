@@ -7,11 +7,11 @@ load_dotenv()
 
 def welcome():
     content = [
-        "📈 Welcome to StockInsight AI",
+        "📈 Welcome to HedgeMind AI",
         "",
-        "An intelligent multi-agent system that analyzes any U.S. stock.",
-        "It combines fundamental, news, Reddit sentiment, and strategy",
-        "insights to generate a professional-grade research report.",
+        "A multi-agent, multi-modal research system for U.S. equities.",
+        "It integrates fundamentals, earnings, insider activity, news, sentiment,",
+        "and strategy to deliver professional-grade investment insights."
     ]
     print("\n" + format_box(content, width=90) + "\n")
 

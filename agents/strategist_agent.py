@@ -9,9 +9,15 @@ llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
 def strategist_agent() -> RunnableLambda:
     """
     Strategist Agent:
-    Aggregates all agent reports and generates a professional investment outlook.
+    Aggregates all agent reports (fundamental, news, sentiment, OPTIONAL satellite)
+    and generates a professional investment outlook.
 
-    Expects state with keys: 'symbol', 'fundamental_report', 'news_report', 'sentiment_report'
+    Expects state with keys:
+      - 'symbol' (str)
+      - 'fundamental_report' (str)
+      - 'news_report' (str)
+      - 'sentiment_report' (str)
+      - OPTIONAL 'satellite_report' (JSON string produced by satellite module)
 
     Returns:
         {
@@ -25,32 +31,37 @@ def strategist_agent() -> RunnableLambda:
 
         print("-" * 60)
         print(f"📊 [Strategist Agent] Synthesizing insights for {symbol}...")
-        print("🧩 Aggregating reports from fundamental, news, and sentiment agents...")
+        print("🧩 Aggregating reports from fundamental, news, sentiment, and satellite...")
 
-        # Get agent outputs
-        fundamental = state["fundamental_report"]
-        news = state["news_report"]
-        sentiment = state["sentiment_report"]
+        # Collect agent outputs
+        fundamental = state.get("fundamental_report", "")
+        earnings = state.get("earnings_report", "")
+        insider = state.get("insider_report", "")
+        news = state.get("news_report", "")
+        sentiment = state.get("sentiment_report", "")
+        satellite = state.get("satellite_report", "")
 
-        # Combine input for LLM
+        # Combine into context
         combined_context = (
             f"Fundamental Report:\n{fundamental}\n\n"
+            f"Earnings:\n{earnings}\n\n"
+            f"Insider Transactions Report:\n{insider}\n\n"
             f"News Report:\n{news}\n\n"
             f"Reddit Sentiment Report:\n{sentiment}\n\n"
+            f"Satellite Report:\n{satellite}\n\n"
         )
 
-        # Prompt for LLM
         prompt = (
             f"You are a senior investment strategist at a hedge fund.\n"
             f"Today is {today}. Your task is to review multiple analyses for stock {symbol}, "
             "and synthesize them into an actionable investment thesis.\n\n"
             f"{combined_context}\n\n"
             "Please provide:\n"
-            "1. A brief summary of key insights from the fundamental, news, and Reddit sentiment reports.\n"
-            "2. Your short-term view (next 1 month)\n"
-            "3. Your medium-term view (1 to 12 months)\n"
-            "4. Your long-term view (12+ months)\n"
-            "5. Estimated directional bias over the next year (bullish, bearish, or range-bound), and why\n\n"
+            "1. A brief synthesis of key insights across all reports.\n"
+            "2. Short-term view (1 month)\n"
+            "3. Medium-term view (1–12 months)\n"
+            "4. Long-term view (12+ months)\n"
+            "5. Estimated directional bias for the next year (bullish, bearish, range-bound), with rationale\n\n"
             "Respond in a clean, professional format using numbered bullet points."
         )
 
